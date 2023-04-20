@@ -34,6 +34,7 @@ class RepoListFragment : Fragment() {
             viewModel.uiState
                 .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
                 .collect {
+                    binding.loading = it is RepoUiState.Loading
                     when (it) {
                         is RepoUiState.Success -> {
                             adapter.submitList(it.repos)

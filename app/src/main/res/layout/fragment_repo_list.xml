@@ -3,25 +3,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="loading"
+            type="Boolean" />
+    </data>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".RepoListFragment"
         >
-
-        <SearchView
-            android:id="@+id/svSearch"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginBottom="16dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            tools:context=".RepoListFragment"
+            >
 
-    </LinearLayout>
+            <SearchView
+                android:id="@+id/svSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="16dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        </LinearLayout>
+
+        <include
+            android:id="@+id/incLoading"
+            android:visibility="@{loading ? View.VISIBLE : View.GONE}"
+            layout="@layout/layout_loading"
+            />
+    </FrameLayout>
 </layout>
