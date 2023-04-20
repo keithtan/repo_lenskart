@@ -21,12 +21,12 @@ class RepoListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        viewModel.getTrendingRepos()
-
         val binding = FragmentRepoListBinding.inflate(layoutInflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
 
-        val adapter = RepoListAdapter()
+        val adapter = RepoListAdapter(RepoListener { repoId ->
+            viewModel.updateSelection(repoId)
+        })
         binding.recyclerView.adapter = adapter
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -37,10 +37,10 @@ class RepoListFragment : Fragment() {
                         is RepoUiState.Success -> {
                             adapter.submitList(it.repos)
                         }
-                        is RepoUiState.Loading -> {
+                        RepoUiState.Loading -> {
 
                         }
-                        is RepoUiState.Failure -> {
+                        RepoUiState.Failure -> {
 
                         }
                     }

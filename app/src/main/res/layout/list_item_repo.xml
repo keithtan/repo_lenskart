@@ -6,7 +6,7 @@
     <data>
         <variable
             name="clickListener"
-            type="android.view.View.OnClickListener"/>
+            type="com.example.repolenskart.RepoListener"/>
         <variable
             name="repo"
             type="com.example.repolenskart.Repo" />
@@ -14,27 +14,28 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardElevation="4dp"
+        app:cardUseCompatPadding="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:background="@color/white"
-            android:onClick="@{clickListener}"
+            android:background="@{repo.selected ? @color/purple_200 : @color/white}"
+            android:onClick="@{() -> clickListener.onClick(repo)}"
             >
-<!--            android:elevation="0dp"-->
 
-<!--            <ImageView-->
-<!--                android:id="@+id/ivCat"-->
-<!--                android:layout_width="150dp"-->
-<!--                android:layout_height="150dp"-->
-<!--                android:contentDescription="@null"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                app:posterUrl="@{cat.url}"-->
-<!--                tools:srcCompat="@tools:sample/avatars"-->
-<!--                />-->
+            <ImageView
+                android:id="@+id/ivAvatar"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:contentDescription="@null"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:avatarUrl="@{repo.owner.avatar_url}"
+                tools:srcCompat="@tools:sample/avatars"
+                />
 
             <TextView
                 android:id="@+id/tv"
@@ -44,7 +45,7 @@
                 android:layout_marginStart="16dp"
                 android:text="@{repo.name}"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivAvatar"
                 tools:text="test"
                 />
 
