@@ -15,6 +15,8 @@ class RepoListViewModel : ViewModel() {
     private val _uiState: MutableStateFlow<RepoUiState> = MutableStateFlow(RepoUiState.Loading)
     val uiState: StateFlow<RepoUiState> = _uiState
 
+    private var _repoList = emptyList<Repo>()
+
     init {
         getTrendingRepos()
     }
@@ -35,12 +37,14 @@ class RepoListViewModel : ViewModel() {
             val response = gitHubApiService.trendingRepos()
             if (response.isSuccessful) {
                 Timber.d("${response.body()}")
-                val repoList = response.body()
+                val responseRepoList = response.body()
 
-                if (repoList.isNullOrEmpty()) {
+                if (responseRepoList.isNullOrEmpty()) {
                     _uiState.value = RepoUiState.Failure
                 } else {
-                    _uiState.value = RepoUiState.Success(repoList.map { it.asDomain() })
+                    val repoList = responseRepoList.map { it.asDomain() }
+                    _repoList = repoList
+                    _uiState.value = RepoUiState.Success(repoList)
                 }
 
             } else {
@@ -53,13 +57,35 @@ class RepoListViewModel : ViewModel() {
         _uiState.update {
             when (it) {
                 is RepoUiState.Success -> {
-                    RepoUiState.Success(it.repos.map {  repo ->
+                    _repoList = _repoList.map { repo ->
                         if (repo.id == repoId) {
                             repo.copy(selected = !repo.selected)
                         } else {
                             repo
                         }
-                    })
+                    }
+                    val list = it.repos.map { repo ->
+                        if (repo.id == repoId) {
+                            repo.copy(selected = !repo.selected)
+                        } else {
+                            repo
+                        }
+                    }
+                    RepoUiState.Success(list)
+                }
+                else -> it
+            }
+        }
+    }
+
+    fun filter(newText: String) {
+        _uiState.update {
+            when (it) {
+                is RepoUiState.Success -> {
+                    val list = _repoList.filter { repo ->
+                        repo.name.contains(newText)
+                    }
+                    RepoUiState.Success(list)
                 }
                 else -> it
             }
