@@ -54,12 +54,12 @@ class RepoListViewModel(val app: Application) : AndroidViewModel(app) {
             val response = gitHubApiService.trendingRepos()
             if (response.isSuccessful) {
                 Timber.d("${response.body()}")
-                val responseRepoList = response.body()
+                val responseResult = response.body()
 
-                if (responseRepoList.isNullOrEmpty()) {
+                if (responseResult == null) {
                     throw RepoException(RepoException.ERROR_REPO_EMPTY_RESPONSE)
                 } else {
-                    val repoList = responseRepoList.map { it.asDomain() }
+                    val repoList = responseResult.items.map { it.asDomain() }
                     _repoList = repoList
                     _uiState.value = RepoUiState.Success(repoList)
                 }
