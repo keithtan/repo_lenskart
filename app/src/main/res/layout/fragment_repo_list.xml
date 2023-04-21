@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:visibility="@{success ? View.VISIBLE : View.GONE}"
-            tools:context=".RepoListFragment"
+            tools:context=".repo.RepoListFragment"
             >
 
             <SearchView
@@ -55,6 +55,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:visibility="@{failure ? View.VISIBLE : View.GONE}"
-            app:srcCompat="@drawable/ic_refresh1" />
+            app:srcCompat="@drawable/ic_refresh" />
     </FrameLayout>
 </layout>

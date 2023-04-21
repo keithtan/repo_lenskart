@@ -6,10 +6,10 @@
     <data>
         <variable
             name="clickListener"
-            type="com.example.repolenskart.RepoListener"/>
+            type="com.example.repolenskart.repo.RepoListener"/>
         <variable
             name="repo"
-            type="com.example.repolenskart.Repo" />
+            type="com.example.repolenskart.repo.Repo" />
     </data>
 
     <androidx.cardview.widget.CardView

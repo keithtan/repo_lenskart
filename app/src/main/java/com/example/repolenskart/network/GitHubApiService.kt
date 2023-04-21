@@ -1,4 +1,4 @@
-package com.example.repolenskart
+package com.example.repolenskart.network
 
 import retrofit2.Response
 import retrofit2.http.GET

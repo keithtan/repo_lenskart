@@ -1,4 +1,4 @@
-package com.example.repolenskart
+package com.example.repolenskart.repo
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.repolenskart.databinding.ListItemRepoBinding
 
-class RepoListAdapter(private val clickListener: RepoListener) : ListAdapter<Repo, RepoListAdapter.RepoViewHolder>(DiffCallback) {
+class RepoListAdapter(private val clickListener: RepoListener) : ListAdapter<Repo, RepoListAdapter.RepoViewHolder>(
+    DiffCallback
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepoViewHolder {
         return RepoViewHolder(

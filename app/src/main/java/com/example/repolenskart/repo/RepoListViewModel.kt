@@ -1,8 +1,11 @@
-package com.example.repolenskart
+package com.example.repolenskart.repo
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.repolenskart.NoNetworkException
+import com.example.repolenskart.isNetworkAvailable
+import com.example.repolenskart.network.GitHubApi
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

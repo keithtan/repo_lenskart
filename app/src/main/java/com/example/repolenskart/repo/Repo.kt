@@ -1,4 +1,7 @@
-package com.example.repolenskart
+package com.example.repolenskart.repo
+
+import com.example.repolenskart.network.NetworkRepo
+import com.example.repolenskart.network.Owner
 
 data class Repo(
     val id: Long,

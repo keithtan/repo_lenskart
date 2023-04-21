@@ -1,4 +1,4 @@
-package com.example.repolenskart
+package com.example.repolenskart.network
 
 data class NetworkRepo(
     val id: Long,
