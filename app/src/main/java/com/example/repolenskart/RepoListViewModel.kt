@@ -1,6 +1,7 @@
 package com.example.repolenskart
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
@@ -10,7 +11,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class RepoListViewModel : ViewModel() {
+class RepoListViewModel(val app: Application) : AndroidViewModel(app) {
 
     private val _uiState: MutableStateFlow<RepoUiState> = MutableStateFlow(RepoUiState.Loading)
     val uiState: StateFlow<RepoUiState> = _uiState
@@ -20,18 +21,31 @@ class RepoListViewModel : ViewModel() {
     init {
         getTrendingRepos()
     }
-    private fun getTrendingRepos() {
+    fun getTrendingRepos() {
         Timber.d("start")
+
+        _uiState.value = RepoUiState.Loading
 
         val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
             Timber.d("$throwable")
+            _uiState.value = when (throwable) {
+                is NoNetworkException -> {
+                    RepoUiState.Failure(throwable)
+                }
+                is RepoException -> {
+                    RepoUiState.Failure(throwable)
+                }
+                else -> {
+                    RepoUiState.Failure(RepoException(RepoException.ERROR_REPO_GENERIC_ERROR))
+                }
+            }
         }
 
         viewModelScope.launch(coroutineExceptionHandler + Dispatchers.IO) {
 
-//            if (networkStateFlow.value != true) {
-//                throw NoNetworkException()
-//            }
+            if (!isNetworkAvailable(app)) {
+                throw NoNetworkException()
+            }
 
             val gitHubApiService = GitHubApi.retrofitService
             val response = gitHubApiService.trendingRepos()
@@ -40,7 +54,7 @@ class RepoListViewModel : ViewModel() {
                 val responseRepoList = response.body()
 
                 if (responseRepoList.isNullOrEmpty()) {
-                    _uiState.value = RepoUiState.Failure
+                    throw RepoException(RepoException.ERROR_REPO_EMPTY_RESPONSE)
                 } else {
                     val repoList = responseRepoList.map { it.asDomain() }
                     _repoList = repoList
@@ -48,7 +62,7 @@ class RepoListViewModel : ViewModel() {
                 }
 
             } else {
-                Timber.d("fail")
+                throw RepoException(RepoException.ERROR_REPO_GENERIC_ERROR)
             }
         }
     }

@@ -10,4 +10,43 @@
         android:name="com.example.repolenskart.RepoListFragment"
         android:label="fragment_repo_list"
         tools:layout="@layout/fragment_repo_list" />
+
+    <dialog
+        android:id="@+id/customDialogFragment"
+        android:name="com.example.repolenskart.CustomDialogFragment"
+        android:label="CustomDialogFragment" >
+        <argument
+            android:name="dialogTitle"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null"
+            />
+
+        <argument
+            android:name="contentText"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null"
+            />
+
+        <argument
+            android:name="positiveText"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null"
+            />
+
+        <argument
+            android:name="negativeText"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null"
+            />
+
+        <argument
+            android:name="ownFragmentTag"
+            app:argType="string"
+            android:defaultValue="-1"
+            />
+    </dialog>
 </navigation>

@@ -8,6 +8,12 @@
         <variable
             name="loading"
             type="Boolean" />
+        <variable
+            name="success"
+            type="Boolean" />
+        <variable
+            name="failure"
+            type="Boolean" />
     </data>
 
     <FrameLayout
@@ -18,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
+            android:visibility="@{success ? View.VISIBLE : View.GONE}"
             tools:context=".RepoListFragment"
             >
 
@@ -41,5 +48,13 @@
             android:visibility="@{loading ? View.VISIBLE : View.GONE}"
             layout="@layout/layout_loading"
             />
+
+        <ImageView
+            android:id="@+id/ivRefresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="@{failure ? View.VISIBLE : View.GONE}"
+            app:srcCompat="@drawable/ic_refresh1" />
     </FrameLayout>
 </layout>
